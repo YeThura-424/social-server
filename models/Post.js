@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const postSchema = mongoose.Schema(
   {
@@ -10,7 +10,7 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    Lastname: {
+    lastName: {
       type: String,
       required: true,
     },
@@ -24,9 +24,10 @@ const postSchema = mongoose.Schema(
     },
     comments: {
       type: Array,
-      default: []
-    }
-  }, { timestamps: true }
+      default: [],
+    },
+  },
+  { timestamps: true }
 );
 
 const Post = mongoose.model("Post", postSchema);
