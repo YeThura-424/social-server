@@ -6,11 +6,10 @@ export const getUser = async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id);
     res.status(200).json(user);
-
   } catch (error) {
-    res.status(404).json({ message: error.message }); 
+    res.status(404).json({ message: error.message });
   }
-}
+};
 
 // user friends
 export const getUserFriend = async (req, res) => {
@@ -29,31 +28,30 @@ export const getUserFriend = async (req, res) => {
       }
     );
     res.status(200).json(formattedFriends);
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 // Update user friends (add and remove)
 export const addRemoveFriend = async (req, res) => {
   try {
-    const { id, friendId } = req.body;
+    const { id, friendId } = req.params;
     const user = await User.findById(id);
     const friend = await User.findById(friendId);
 
-    // if has then remove 
+    // if has then remove
+    console.log(user);
     if (user.friends.includes(friendId)) {
       user.friends = user.friends.filter((id) => id !== friendId);
       friend.friends = friend.friends.filter((id) => id !== id);
     } else {
-      // if does not have then add 
+      // if does not have then add
       user.friends.push(friendId);
       friend.friends.push(id);
     }
     await user.save();
     await friend.save();
-
 
     const friends = await Promise.all(
       user.friends.map((id) => User.findById(id))
@@ -66,8 +64,7 @@ export const addRemoveFriend = async (req, res) => {
       }
     );
     res.status(200).json(formattedFriends);
-    
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-}
+};
